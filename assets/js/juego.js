@@ -95,7 +95,7 @@
         const valor = carta.substring(0, carta.length -1);
         return (isNaN(valor)) ? 
                 (valor === 'A') ? 11 : 10
-                : valor * 1 // transforma el string en type num
+                : valor * 1 // transforma el string en type number
     }
     //pedir carta retorna una carta, y esa carta es la que 
     //se envía a valorCarta()
