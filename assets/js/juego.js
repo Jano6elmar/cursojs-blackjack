@@ -4,22 +4,16 @@
 *2H = hearts ()
 *2s = spades(picas)
  */
-//primero crear el mazo
-
-
-(() => {
-    'use strict'//JS sé estrict a la hora de evaluar mi codigo
-    //siempre dejar habilitado al usar este modulo de patrón
+//primero crear el mazo    
     let deck         = [];
     const tipos      = ['C','D','H','S'],
           especiales = ['A','J','Q','K'];
 
-    //let puntosJugador     = 0,
-      //  puntosComputadora = 0;
-      let puntosJugadores = [];
+    let puntosJugador     = 0,
+        puntosComputadora = 0;
 
     //Referencias del HTML
-    const btnPedir   = document.querySelector('#btnPedir'),
+    const btnPedir   = document.querySelector('#btnPedir'), //con # se hace referencia a id's
           btnDetener = document.querySelector('#btnDetener'),
           btnNuevo   = document.querySelector('#btnNuevo');
 
@@ -29,20 +23,12 @@
           divCartasJugador     = document.querySelector('#jugador-cartas'),
           divCartasComputadora = document.querySelector('#computer-cartas');
 
-    //función que inicializa el juego    
-    const inicializarJuego = ( numJugadores = 2 ) => {
-        deck = crearDeck(); 
-        for(let i = 0; i< numJugadores; i ++){
-            puntosJugadores.push(0);
-        } 
-        console.log({puntosJugadores});
-    } 
-    
-    //para crear baraja
+   
+          //para crear baraja // Esta función crea un nuevo deck
     const crearDeck = () => {
         //añadir las cartas del 2 al 10
         
-        deck = [];
+       
         for( let i = 2; i <= 10; i++ ){
             for (let tipo of tipos) {
                 deck.push( i + tipo )
@@ -60,8 +46,13 @@
         //manera aleatoria
         // ( _ ) el underscore es un objeto
         
-        return _.shuffle( deck );
+        deck = _.shuffle( deck );
+        console.log( deck );
+        return deck;
     }
+    
+    crearDeck();
+
 
      
     //funcion para tomar una carta
@@ -77,7 +68,8 @@
 
         //console.log(carta)
         //console.log(deck)
-        return  deck.pop()
+        const carta = deck.pop();
+        return carta;
     }
 
     //para probar que funciona la prevencio de no hya mas cartas
@@ -116,9 +108,6 @@
     //console.log(puntos)
 
 
-    const acumularPuntos = () => {
-
-    } 
 
     //turno de la computadora
     const turnoComputadora = ( puntosMinimos) => {
@@ -135,24 +124,27 @@
             imgCarta.classList.add('carta')
             divCartasComputadora.append( imgCarta );
 
-        }while( puntosComputadora < puntosMinimos);
-        
-        setTimeout(() => {    
-
-            if( puntosComputadora === puntosMinimos) {
-                alert( 'Nadie Gana ')
-            }else if( puntosMinimos > 21) {
-                alert( 'Computadora gana')
-            }else if( puntosComputadora > 21){
+            if( puntosMinimos > 21 ) {
+                break;
+            }
+    
+        } while(  (puntosComputadora < puntosMinimos)  && (puntosMinimos <= 21 ) );
+    
+        setTimeout(() => {
+            if( puntosComputadora === puntosMinimos ) {
+                alert('Nadie gana :(');
+            } else if ( puntosMinimos > 21 ) {
+                alert('Computadora gana')
+            } else if( puntosComputadora > 21 ) {
                 alert('Jugador Gana');
-            }else {
+            } else {
                 alert('Computadora Gana')
             }
-        }, 100 )
+        }, 100 );
     }
 
 
-    //Eventos
+    ///////////////////----------------Eventos---------//////////////////////////////////////////////////
     btnPedir.addEventListener('click', () => {
         
         const carta = pedirCarta() 
@@ -197,7 +189,8 @@
     btnNuevo.addEventListener('click', () => {
 
         console.clear();
-        inicializarJuego();
+        deck = [];
+        deck = crearDeck();
         //deck = []
 
         //deck = crearDeck();   
@@ -222,5 +215,5 @@
 
 
 
-})();
+
 
